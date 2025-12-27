@@ -85,7 +85,7 @@ English, Chinese (Simplified), Japanese
 table, excel, copy, select, data, spreadsheet, export, statistics
 
 ## Support URL
-https://github.com/wxkingstar/supertables/issues
+https://github.com/wxkingstar/SuperTables/issues
 
 ## Privacy Policy URL
-https://github.com/wxkingstar/supertables/blob/main/PRIVACY_POLICY.md
+https://github.com/wxkingstar/SuperTables/blob/main/PRIVACY_POLICY.md
