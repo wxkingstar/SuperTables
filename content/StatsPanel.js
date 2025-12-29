@@ -58,6 +58,7 @@ class StatsPanel {
         bottom: 0;
         z-index: 2147483647;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        pointer-events: none;
       }
 
       :host(.position-center) {
