@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <b>言語 / Language / 语言</b>: <a href="README.md">English</a> | <a href="README_zh-CN.md">简体中文</a> | 日本語
+  <b>言語 / Language / 语言</b>: <a href="README_en.md">English</a> | <a href="README.md">简体中文</a> | 日本語
 </p>
 
 ---
@@ -57,7 +57,7 @@ Excel のようにテーブルセルを選択 - 任意のウェブページで�
 ## インストール
 
 ### Chrome ウェブストア
-*（近日公開予定）*
+[Chrome ウェブストアからインストール](https://chromewebstore.google.com/detail/supertables/eonhkaekeodnhfmajkjgiikmjakekjnj?hl=ja)
 
 ### 手動インストール
 1. このリポジトリをダウンロードまたはクローン
