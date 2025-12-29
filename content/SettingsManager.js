@@ -9,6 +9,9 @@ class SettingsManager {
       // Column selection includes header
       columnIncludeHeader: false,
 
+      // Copy settings: keep empty placeholders for non-contiguous selection
+      copyKeepEmptyPlaceholders: false,
+
       // Stats bar position: 'left', 'center', 'right'
       statsPosition: 'left',
 
@@ -54,6 +57,7 @@ class SettingsManager {
   _mergeWithDefaults(stored) {
     return {
       columnIncludeHeader: stored.columnIncludeHeader ?? this.defaults.columnIncludeHeader,
+      copyKeepEmptyPlaceholders: stored.copyKeepEmptyPlaceholders ?? this.defaults.copyKeepEmptyPlaceholders,
       statsPosition: stored.statsPosition ?? this.defaults.statsPosition,
       shortcuts: {
         ...this.defaults.shortcuts,

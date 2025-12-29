@@ -20,6 +20,7 @@
   // Default settings
   const defaults = {
     columnIncludeHeader: false,
+    copyKeepEmptyPlaceholders: false,
     statsPosition: 'left',
     shortcuts: {
       selectCell: { key: 'click', modifiers: ['cmd'] },
@@ -36,6 +37,7 @@
   // DOM Elements
   const toast = document.getElementById('toast');
   const columnIncludeHeaderToggle = document.getElementById('columnIncludeHeader');
+  const copyKeepEmptyPlaceholdersToggle = document.getElementById('copyKeepEmptyPlaceholders');
   const statsPositionSelect = document.getElementById('statsPosition');
   const resetBtn = document.getElementById('reset-btn');
   const tabs = document.querySelectorAll('.tab');
@@ -319,6 +321,7 @@
    */
   function updateUI() {
     columnIncludeHeaderToggle.checked = settings.columnIncludeHeader;
+    copyKeepEmptyPlaceholdersToggle.checked = settings.copyKeepEmptyPlaceholders;
     statsPositionSelect.value = settings.statsPosition || 'center';
     renderShortcuts();
   }
@@ -360,6 +363,12 @@
     // Column include header toggle
     columnIncludeHeaderToggle.addEventListener('change', () => {
       settings.columnIncludeHeader = columnIncludeHeaderToggle.checked;
+      saveSettings();
+    });
+
+    // Copy keep empty placeholders toggle
+    copyKeepEmptyPlaceholdersToggle.addEventListener('change', () => {
+      settings.copyKeepEmptyPlaceholders = copyKeepEmptyPlaceholdersToggle.checked;
       saveSettings();
     });
 

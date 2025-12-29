@@ -254,6 +254,7 @@ class SelectionManager {
     if (!table) return cells.map(c => [c.textContent.trim()]);
 
     const structure = this.tableDetector.getTableStructure(table);
+    const keepEmptyPlaceholders = this.settingsManager?.get('copyKeepEmptyPlaceholders') ?? false;
 
     // Find bounds of selection
     let minRow = Infinity, maxRow = -Infinity;
@@ -290,7 +291,10 @@ class SelectionManager {
             }
           }
         } else {
-          rowData.push('');
+          // Cell not selected - only add empty placeholder if setting is enabled
+          if (keepEmptyPlaceholders) {
+            rowData.push('');
+          }
         }
       }
       if (rowData.length > 0) {

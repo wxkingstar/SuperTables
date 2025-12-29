@@ -32,6 +32,10 @@ const i18n = {
       includeHeader: 'Include Header Row',
       includeHeaderDesc: 'When selecting a column, include the header cells',
 
+      sectionCopy: 'Copy Settings',
+      keepEmptyPlaceholders: 'Keep Empty Placeholders',
+      keepEmptyPlaceholdersDesc: 'When copying non-contiguous cells, keep empty placeholders for unselected cells',
+
       sectionStatsBar: 'Statistics Bar',
       statsPosition: 'Position',
       statsPositionDesc: 'Choose where to display the statistics bar',
@@ -84,6 +88,10 @@ const i18n = {
       includeHeader: '包含表头',
       includeHeaderDesc: '选择列时，同时选中表头单元格',
 
+      sectionCopy: '复制设置',
+      keepEmptyPlaceholders: '保留空白占位',
+      keepEmptyPlaceholdersDesc: '复制非连续选区时，保留未选中单元格的空白占位',
+
       sectionStatsBar: '统计栏',
       statsPosition: '显示位置',
       statsPositionDesc: '选择统计栏的显示位置',
@@ -135,6 +143,10 @@ const i18n = {
       sectionColumnSelection: '列選択',
       includeHeader: 'ヘッダーを含める',
       includeHeaderDesc: '列を選択する際、ヘッダーセルも含めます',
+
+      sectionCopy: 'コピー設定',
+      keepEmptyPlaceholders: '空白プレースホルダーを保持',
+      keepEmptyPlaceholdersDesc: '非連続セルをコピーする際、未選択セルの空白を保持します',
 
       sectionStatsBar: '統計バー',
       statsPosition: '表示位置',
