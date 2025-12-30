@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "__MSG_extDescription__",
   "default_locale": "en",
   "homepage_url": "https://github.com/wxkingstar/SuperTables",
@@ -12,6 +12,12 @@
     "128": "icons/icon128.png"
   },
   "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "js": ["content/marker.js"],
+      "run_at": "document_start"
+    },
     {
       "matches": ["<all_urls>"],
       "all_frames": true,
