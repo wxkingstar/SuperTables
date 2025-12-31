@@ -39,6 +39,16 @@ class SelectionManager {
   }
 
   /**
+   * Get only visible selected cells (filtered rows are excluded)
+   * @returns {HTMLTableCellElement[]}
+   */
+  getVisibleSelectedCells() {
+    return Array.from(this.selectedCells).filter(cell =>
+      this.tableDetector.isCellVisible(cell)
+    );
+  }
+
+  /**
    * Toggle selection of a single cell
    * @param {HTMLTableCellElement} cell
    * @param {boolean} [additive=false] - If true, add to existing selection
@@ -89,7 +99,8 @@ class SelectionManager {
       this.clearSelection(false);
     }
 
-    const rowCells = this.tableDetector.getRowCells(cell);
+    // Only select visible cells (filtered rows are excluded)
+    const rowCells = this.tableDetector.getRowCells(cell, true);
     rowCells.forEach(c => this._addCell(c));
 
     this.lastSelectedCell = cell;
@@ -108,7 +119,8 @@ class SelectionManager {
       this.clearSelection(false);
     }
 
-    const colCells = this.tableDetector.getColumnCells(cell);
+    // Only select visible cells (filtered rows are excluded)
+    const colCells = this.tableDetector.getColumnCells(cell, true);
     const includeHeader = this.settingsManager?.get('columnIncludeHeader') ?? false;
 
     colCells.forEach(c => {
@@ -141,7 +153,8 @@ class SelectionManager {
       this.clearSelection(false);
     }
 
-    const allCells = this.tableDetector.getAllCells(table);
+    // Only select visible cells (filtered rows are excluded)
+    const allCells = this.tableDetector.getAllCells(table, true);
     allCells.forEach(c => this._addCell(c));
 
     this.isFullTableSelected = true;
@@ -181,7 +194,8 @@ class SelectionManager {
     for (let r = minRow; r <= maxRow; r++) {
       for (let c = minCol; c <= maxCol; c++) {
         const gridCell = structure.grid[r]?.[c];
-        if (gridCell && gridCell.cell) {
+        // Only select visible cells (filtered rows are excluded)
+        if (gridCell && gridCell.cell && this.tableDetector.isCellVisible(gridCell.cell)) {
           cellsToSelect.add(gridCell.cell);
         }
       }
@@ -237,7 +251,8 @@ class SelectionManager {
    */
   _notifyChange() {
     if (typeof this.onSelectionChange === 'function') {
-      this.onSelectionChange(this.getSelectedCells());
+      // Only pass visible cells to stats panel (filtered rows are excluded)
+      this.onSelectionChange(this.getVisibleSelectedCells());
     }
   }
 
@@ -246,7 +261,8 @@ class SelectionManager {
    * @returns {string[][]} 2D array of cell contents
    */
   getSelectionData() {
-    const cells = this.getSelectedCells();
+    // Only get visible selected cells (filtered rows are excluded)
+    const cells = this.getVisibleSelectedCells();
     if (cells.length === 0) return [];
 
     // Find the table and organize cells by their grid position
@@ -256,7 +272,10 @@ class SelectionManager {
     const structure = this.tableDetector.getTableStructure(table);
     const keepEmptyPlaceholders = this.settingsManager?.get('copyKeepEmptyPlaceholders') ?? false;
 
-    // Find bounds of selection
+    // Create a set of visible selected cells for quick lookup
+    const visibleSelectedSet = new Set(cells);
+
+    // Find bounds of selection (only considering visible cells)
     let minRow = Infinity, maxRow = -Infinity;
     let minCol = Infinity, maxCol = -Infinity;
 
@@ -276,10 +295,16 @@ class SelectionManager {
     // Build 2D array
     const data = [];
     for (let r = minRow; r <= maxRow; r++) {
+      // Skip hidden rows entirely
+      const rowElement = structure.grid[r]?.[0]?.cell?.closest('tr');
+      if (rowElement && !this.tableDetector.isRowVisible(rowElement)) {
+        continue;
+      }
+
       const rowData = [];
       for (let c = minCol; c <= maxCol; c++) {
         const gridCell = structure.grid[r]?.[c];
-        if (gridCell && gridCell.cell && this.selectedCells.has(gridCell.cell)) {
+        if (gridCell && gridCell.cell && visibleSelectedSet.has(gridCell.cell)) {
           // Only add content for origin cells to avoid duplicates
           if (gridCell.isOrigin) {
             rowData.push(gridCell.cell.textContent.trim());

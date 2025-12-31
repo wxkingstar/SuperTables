@@ -949,8 +949,9 @@
    */
   statsPanel.onDownloadClick = () => {
     if (selectionManager.isFullTableSelected && selectionManager.selectedTable) {
+      // Only export visible cells (filtered rows are excluded)
       excelExporter.exportFromCells(
-        selectionManager.getSelectedCells(),
+        selectionManager.getVisibleSelectedCells(),
         tableDetector
       );
     }

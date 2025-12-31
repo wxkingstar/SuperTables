@@ -119,6 +119,29 @@ class TableDetector {
   }
 
   /**
+   * Check if a table row is visible (not hidden by filtering)
+   * @param {HTMLTableRowElement} row
+   * @returns {boolean}
+   */
+  isRowVisible(row) {
+    if (!row) return false;
+    // Check computed style for display and visibility
+    const style = window.getComputedStyle(row);
+    return style.display !== 'none' && style.visibility !== 'hidden';
+  }
+
+  /**
+   * Check if a table cell is visible (its row is not hidden)
+   * @param {HTMLTableCellElement} cell
+   * @returns {boolean}
+   */
+  isCellVisible(cell) {
+    if (!cell) return false;
+    const row = cell.closest('tr');
+    return this.isRowVisible(row);
+  }
+
+  /**
    * Find the closest table cell from an element
    * @param {HTMLElement} element
    * @returns {HTMLTableCellElement|null}
@@ -237,9 +260,10 @@ class TableDetector {
   /**
    * Get all cells in a row
    * @param {HTMLTableCellElement} cell - Any cell in the row
+   * @param {boolean} [visibleOnly=false] - If true, only return visible cells
    * @returns {HTMLTableCellElement[]}
    */
-  getRowCells(cell) {
+  getRowCells(cell, visibleOnly = false) {
     const table = this.getTableFromCell(cell);
     if (!table) return [cell];
 
@@ -252,7 +276,9 @@ class TableDetector {
     // Get all cells that span into this row
     structure.grid[position.row]?.forEach(gridCell => {
       if (gridCell && gridCell.cell) {
-        rowCells.add(gridCell.cell);
+        if (!visibleOnly || this.isCellVisible(gridCell.cell)) {
+          rowCells.add(gridCell.cell);
+        }
       }
     });
 
@@ -262,9 +288,10 @@ class TableDetector {
   /**
    * Get all cells in a column
    * @param {HTMLTableCellElement} cell - Any cell in the column
+   * @param {boolean} [visibleOnly=false] - If true, only return visible cells
    * @returns {HTMLTableCellElement[]}
    */
-  getColumnCells(cell) {
+  getColumnCells(cell, visibleOnly = false) {
     const table = this.getTableFromCell(cell);
     if (!table) return [cell];
 
@@ -278,7 +305,9 @@ class TableDetector {
     structure.grid.forEach(row => {
       const gridCell = row[position.col];
       if (gridCell && gridCell.cell) {
-        colCells.add(gridCell.cell);
+        if (!visibleOnly || this.isCellVisible(gridCell.cell)) {
+          colCells.add(gridCell.cell);
+        }
       }
     });
 
@@ -288,11 +317,15 @@ class TableDetector {
   /**
    * Get all cells in a table
    * @param {HTMLTableElement} table
+   * @param {boolean} [visibleOnly=false] - If true, only return visible cells
    * @returns {HTMLTableCellElement[]}
    */
-  getAllCells(table) {
+  getAllCells(table, visibleOnly = false) {
     const structure = this.getTableStructure(table);
-    return structure.cells;
+    if (!visibleOnly) {
+      return structure.cells;
+    }
+    return structure.cells.filter(cell => this.isCellVisible(cell));
   }
 
   /**
