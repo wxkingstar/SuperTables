@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.4] - 2025-12-31
+
+### Bug Fixes
+- Fixed copy and statistics still including hidden rows after table filtering
+- Now only visible cells are selected when selecting rows, columns, tables, or ranges
+- Copy, statistics, and Excel export now only process visible cell data
+
+---
+
 ## [1.1.3] - 2025-12-31
 
 ### Bug Fixes
