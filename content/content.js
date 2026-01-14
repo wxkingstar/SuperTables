@@ -111,6 +111,9 @@
       e.preventDefault();
       e.stopPropagation();
 
+      // Ensure this frame gets keyboard focus (important for iframe scenarios)
+      window.focus();
+
       if (currentHoveredTable) {
         selectionManager.selectTable(currentHoveredTable);
         anchorCell = null;
@@ -444,6 +447,11 @@
 
     e.preventDefault();
     e.stopPropagation();
+
+    // Ensure this frame gets keyboard focus (important for iframe scenarios)
+    // When user selects cells in an iframe, the iframe needs keyboard focus
+    // so that Cmd+C events are handled by this frame's handler
+    window.focus();
 
     // Clear any text selection that might have occurred
     const selection = window.getSelection();

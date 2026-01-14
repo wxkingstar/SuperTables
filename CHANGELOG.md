@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.6] - 2026-01-14
+
+### Bug Fixes
+- Fixed copy operation in iframe nested pages still copying parent page content instead of iframe content
+- Added `window.focus()` call when selecting cells to ensure the correct frame handles keyboard events
+
+---
+
 ## [1.1.5] - 2026-01-04
 
 ### Bug Fixes
